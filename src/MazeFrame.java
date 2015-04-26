@@ -35,7 +35,7 @@ public class MazeFrame {
      */
     private void initialize() {
         mazeFrame = new JFrame();
-        mazeFrame.setTitle("MazeFrame");
+        mazeFrame.setTitle("MazeSolver");
         mazeFrame.setResizable(false);
         mazeFrame.setBounds(100, 100, 600, 500);
         mazeFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
