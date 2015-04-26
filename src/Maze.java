@@ -17,14 +17,16 @@ public class Maze {
         this.g2d = (Graphics2D) frame.getMazePanel().getGraphics();
     }
 
+    // as x increases, move right
+    // as y increases, move down
     private void paintLines() {
         mazeFrame.resize(rows * 10, cols * 10);
-        for (int r = 0; r < rows; r++) {
-            //x1, y1 -> x2, y2
-
+        g2d.setColor(Color.BLACK);
+        for (int r = 1; r < rows; r++) {
+            g2d.drawLine(r * 10, 0, r * 10, rows * 10);
         }
         for (int c = 0; c < cols; c++) {
-
+            g2d.drawLine(0, c * 10, cols * 10, c * 10);
         }
     }
 
@@ -36,11 +38,15 @@ public class Maze {
             grid = new int[rows][cols];
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    grid[i][j] = scan.nextInt();
+                    setValue(i, j, scan.nextInt());
                 }
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+    }
+
+    public void setValue(int row, int col, int val) {
+        grid[row][col] = val;
     }
 }
