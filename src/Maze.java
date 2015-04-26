@@ -36,7 +36,7 @@ public class Maze extends JPanel {
                 if (val == 1) {
                     g.setColor(Color.blue);
                 } else if(val == 2) {
-                    g.setColor(Color.PINK);
+                    g.setColor(Color.pink);
                 } else if(val == 3) {
                     g.setColor(Color.lightGray);
                 } else {
