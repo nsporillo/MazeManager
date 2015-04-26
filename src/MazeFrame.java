@@ -1,25 +1,24 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+
+import static javax.swing.JFrame.EXIT_ON_CLOSE;
 
 public class MazeFrame {
 
-    private JFrame frmMaze;
-    private Maze currentMaze;
+    private JFrame mazeFrame;
+    private Maze maze;
 
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    MazeFrame window = new MazeFrame();
-                    window.frmMaze.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        SwingUtilities.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+                MazeFrame window = new MazeFrame();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -35,16 +34,17 @@ public class MazeFrame {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        frmMaze = new JFrame();
-        frmMaze.setTitle("MazeFrame");
-        frmMaze.setResizable(false);
-        frmMaze.setBounds(100, 100, 600, 367);
-        frmMaze.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frmMaze.getContentPane().setLayout(null);
+        mazeFrame = new JFrame();
+        mazeFrame.setTitle("MazeFrame");
+        mazeFrame.setResizable(false);
+        mazeFrame.setBounds(100, 100, 600, 500);
+        mazeFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        mazeFrame.getContentPane().setLayout(new FlowLayout());
+        mazeFrame.setVisible(true);
+        mazeFrame.add(new Maze(this, new File("test.maze")));
 
-        frmMaze.add()
         JMenuBar menuBar = new JMenuBar();
-        frmMaze.setJMenuBar(menuBar);
+        mazeFrame.setJMenuBar(menuBar);
 
         JMenu mnFile = new JMenu("File");
         menuBar.add(mnFile);
