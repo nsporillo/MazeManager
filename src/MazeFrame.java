@@ -2,8 +2,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.io.File;
 
-import static javax.swing.JFrame.EXIT_ON_CLOSE;
-
 public class MazeFrame {
 
     private JFrame mazeFrame;
@@ -38,10 +36,12 @@ public class MazeFrame {
         mazeFrame.setTitle("MazeSolver");
         mazeFrame.setResizable(false);
         mazeFrame.setBounds(100, 100, 600, 500);
-        mazeFrame.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        mazeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mazeFrame.getContentPane().setLayout(new FlowLayout());
         mazeFrame.setVisible(true);
-        mazeFrame.add(new Maze(this, new File("test.maze")));
+        maze = new Maze(new File("medium.maze"));
+        mazeFrame.add(maze);
+        MenuListener ml = new MenuListener(maze);
 
         JMenuBar menuBar = new JMenuBar();
         mazeFrame.setJMenuBar(menuBar);
@@ -54,5 +54,9 @@ public class MazeFrame {
 
         JMenu mnRun = new JMenu("Run");
         menuBar.add(mnRun);
+
+        JMenuItem mnSolve = new JMenuItem("Solve");
+        mnRun.add(mnSolve);
+        mnSolve.addActionListener(ml);
     }
 }
