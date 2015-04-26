@@ -48,8 +48,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
      */
     protected void expandCapacity() {
         T[] temp = (T[]) (new Object[2 * size()]);
-        for (int i = 0; i < list.length; i++)
-            temp[i] = list[i];
+        System.arraycopy(list, 0, temp, 0, list.length);
 
         list = temp;
         System.out.println("Capacity Expanded\n");
@@ -90,8 +89,7 @@ public abstract class ArrayList<T> implements ListADT<T>, Iterable<T> {
         T result = list[0];
 
         // shift the appropriate elements 
-        for (int scan = 0; scan < rear - 1; scan++)
-            list[scan] = list[scan + 1];
+        System.arraycopy(list, 1, list, 0, rear - 1);
 
         rear--;
         list[rear] = null;
