@@ -1,4 +1,6 @@
 
+import jsjf.ArrayUnorderedList;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
@@ -17,7 +19,7 @@ public class Maze extends JPanel {
 
     private int rowSize = 0;
     private int colSize = 0;
-
+    private ArrayUnorderedList<Tile> tiles = new ArrayUnorderedList<Tile>();
     private int[][] grid;
 
     public Maze(MazeFrame frame, File mazeFile) {
@@ -29,31 +31,17 @@ public class Maze extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        for (int y = 0; y < cols; y++) {
-            for (int x = 0; x < rows; x++) {
-                int val = grid[x][y];
-                if (val == 1) {
-                    g.setColor(Color.blue);
-                } else if(val == 2) {
-                    g.setColor(Color.pink);
-                } else if(val == 3) {
-                    g.setColor(Color.lightGray);
-                } else {
-                    g.setColor(Color.white);
-                }
-                g.fillRect(y * colSize, x * rowSize, colSize, rowSize);
-            }
+        for (Tile tile : tiles) {
+            g.setColor(tile.getColor());
+            g.fillRect(tile.getY() * colSize, tile.getX() * rowSize, colSize, rowSize);
         }
 
         g.setColor(Color.black);
-        for (int r = 0; r <= rows; r++) {
-            int size = r * rowSize;
-            g.drawLine(0, size, width + 3 - colSize, size);
-        }
-        for (int c = 0; c <= cols; c++) {
-            int size = c * colSize;
-            g.drawLine(size, 0, size, height);
+        for (Tile tile : tiles) {
+            int xSize = tile.getX() * rowSize;
+            int ySize = tile.getY() * colSize;
+            g.drawLine(0, xSize, width + 3 - colSize, xSize);
+            g.drawLine(ySize, 0, ySize, height);
         }
     }
 
@@ -72,7 +60,11 @@ public class Maze extends JPanel {
             grid = new int[rows][cols];
             for (int i = 0; i < rows; i++) {
                 for (int j = 0; j < cols; j++) {
-                    setValue(i, j, scan.nextInt());
+                    int val = scan.nextInt();
+                    Tile tile = new Tile(i, j);
+                    tile.setValue(val);
+                    tiles.addToRear(tile);
+                    setValue(i, j, val);
                 }
             }
         } catch (Exception ex) {
