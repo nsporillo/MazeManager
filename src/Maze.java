@@ -89,6 +89,9 @@ public class Maze extends JPanel {
         }
     }
 
+    //TODO: Use relation based adjacency :)
+    // Find diff between current and end
+    // Use that to determine what direction to check first
     private Point[] findAdjacent(Point tile) {
         Point[] adjacent = new Point[4];
         adjacent[0] = new Point(tile.x + 1, tile.y);
@@ -125,6 +128,7 @@ public class Maze extends JPanel {
         for (Point adja : adjacent) {
             if (isFreeTile(adja)) {
                 enter(adja);
+                this.repaint();
                 if (traverse(adja)) {
                     return true;
                 }
@@ -157,7 +161,7 @@ public class Maze extends JPanel {
     }
 
     private void exit(Point tile) {
-        grid[tile.x][tile.y] = TileType.OPEN.value();
+        grid[tile.x][tile.y] = TileType.TRIED.value();
         steps--;
     }
 
