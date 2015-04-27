@@ -29,17 +29,26 @@ public class Maze extends JPanel {
         super.paintComponent(g);
         for (int y = 0; y < cols; y++) {
             for (int x = 0; x < rows; x++) {
-                int val = grid[x][y];
-                if (val == 1) {
-                    g.setColor(Color.BLUE); // wall
-                } else if (val == 2) {
-                    g.setColor(Color.PINK); // tried
-                } else if (val == 3 || val == 4) {
-                    g.setColor(Color.BLACK); // start or end
-                } else if (val == 5) {
-                    g.setColor(Color.GREEN); // path
-                } else {
-                    g.setColor(Color.WHITE); // open
+                TileType type = TileType.to(grid[x][y]);
+                switch (type) {
+                    case OPEN:
+                        g.setColor(Color.WHITE);
+                        break;
+                    case WALL:
+                        g.setColor(Color.BLUE);
+                        break;
+                    case TRIED:
+                        g.setColor(Color.PINK);
+                        break;
+                    case START:
+                        g.setColor(Color.BLACK);
+                        break;
+                    case END:
+                        g.setColor(Color.BLACK);
+                        break;
+                    case SOLVED:
+                        g.setColor(Color.GREEN);
+                        break;
                 }
                 g.fillRect(y * colSize, x * rowSize, colSize, rowSize);
             }
@@ -109,7 +118,7 @@ public class Maze extends JPanel {
 
     private boolean traverse(Point tile) {
         if (isFinished(tile)) {
-            grid[tile.x][tile.y] = 4;
+            grid[tile.x][tile.y] = TileType.END.value();
             return true;
         }
         Point[] adjacent = findAdjacent(tile);
@@ -137,19 +146,23 @@ public class Maze extends JPanel {
     }
 
     private boolean isFreeTile(Point tile) {
-        if (tile.x < 0 || tile.x >= rows || tile.y < 0 || tile.y >= cols) {
+        int x = tile.x;
+        int y = tile.y;
+        // check if tile is inside the grid
+        if (x < 0 || x >= rows || y < 0 || y >= cols) {
             return false;
         }
-        return grid[tile.x][tile.y] == 0 || grid[tile.x][tile.y] == 4;
+        // check if tile is open or the end tile
+        return grid[x][y] == TileType.OPEN.value() || grid[x][y] == TileType.END.value();
     }
 
     private void exit(Point tile) {
-        grid[tile.x][tile.y] = 0;
+        grid[tile.x][tile.y] = TileType.OPEN.value();
         steps--;
     }
 
     private void enter(Point tile) {
-        grid[tile.x][tile.y] = 5;
+        grid[tile.x][tile.y] = TileType.SOLVED.value();
         steps++;
     }
 
