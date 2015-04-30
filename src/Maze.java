@@ -89,28 +89,13 @@ public class Maze extends JPanel {
         }
     }
 
-    //TODO: Use relation based adjacency :)
-    // Find diff between current and end
-    // Use that to determine what direction to check first
     private Point[] findAdjacent(Point tile) {
         Point[] adjacent = new Point[4];
-        adjacent[0] = new Point(tile.x + 1, tile.y);
-        adjacent[1] = new Point(tile.x, tile.y + 1);
-        adjacent[2] = new Point(tile.x - 1, tile.y);
-        adjacent[3] = new Point(tile.x, tile.y - 1);
-        shuffle(adjacent); // variety in direction
+        adjacent[0] = new Point(tile.x + 1, tile.y); // right
+        adjacent[1] = new Point(tile.x - 1, tile.y); // left
+        adjacent[2] = new Point(tile.x, tile.y - 1); // up
+        adjacent[3] = new Point(tile.x, tile.y + 1); // down
         return adjacent;
-    }
-
-    private void shuffle(Point[] array) {
-        Point temp;
-        int index;
-        for (int i = array.length - 1; i > 0; i--) {
-            index = random.nextInt(i + 1);
-            temp = array[index];
-            array[index] = array[i];
-            array[i] = temp;
-        }
     }
 
     public boolean solve() {
