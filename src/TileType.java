@@ -27,6 +27,6 @@ public enum TileType {
         } else if(value == 5) {
             return SOLVED;
         }
-        return null;
+        throw new IllegalArgumentException("value=" + value + " is invalid for a tile");
     }
 }
