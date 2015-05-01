@@ -15,4 +15,5 @@ hs_err_pid*
 *.iml
 
 META-INF
-out/artifacts/maze/test.maze
+
+out/
