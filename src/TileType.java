@@ -4,6 +4,8 @@ public enum TileType {
     OPEN(0, false),
     WALL(1, false),
     TRIED(2, false),
+    START(3, true), // can only be one start point
+    END(4, true),   // can only be one end point
     SOLVED(5, false);
 
     private int value;
