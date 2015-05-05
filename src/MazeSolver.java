@@ -1,83 +1,18 @@
 import java.awt.*;
-import java.util.Scanner;
 
 public class MazeSolver extends Maze {
 
-    private int rowSize, colSize, steps;
+    private int steps;
     private boolean solved = false;
 
     public MazeSolver(String mazeName) {
         super(mazeName);
-        this.load();
-        super.setVisible(true);
+        super.setName("MazeSolver");
+        super.load();
+        this.solved = false;
         super.start = this.findValue(3);
         super.finish = this.findValue(4);
-    }
-
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        for (int y = 0; y < cols; y++) {
-            for (int x = 0; x < rows; x++) {
-                TileType type = TileType.to(grid[x][y]);
-                switch (type) {
-                    case OPEN:
-                        g.setColor(Color.WHITE);
-                        break;
-                    case WALL:
-                        g.setColor(Color.BLUE);
-                        break;
-                    case TRIED:
-                        g.setColor(Color.PINK);
-                        break;
-                    case START:
-                        g.setColor(Color.BLACK);
-                        break;
-                    case END:
-                        g.setColor(Color.BLACK);
-                        break;
-                    case SOLVED:
-                        g.setColor(Color.GREEN);
-                        break;
-                }
-                g.fillRect(y * colSize, x * rowSize, colSize, rowSize);
-            }
-        }
-
-        g.setColor(Color.black);
-        for (int r = 0; r <= rows; r++) {
-            int size = r * rowSize;
-            g.drawLine(0, size, getPreferredSize().width + 3 - colSize, size);
-        }
-        for (int c = 0; c <= cols; c++) {
-            int size = c * colSize;
-            g.drawLine(size, 0, size, getPreferredSize().height);
-        }
-    }
-
-    @Override
-    public Dimension getPreferredSize() {
-        return new Dimension(500, 400);
-    }
-
-    @Override
-    public void load() {
-        try {
-            Scanner scan = new Scanner(super.getFile());
-            rows = scan.nextInt();
-            cols = scan.nextInt();
-            colSize = (int) Math.floor((double) getPreferredSize().width / (double) cols);
-            rowSize = (int) Math.floor((double) getPreferredSize().height / (double) rows);
-            grid = new int[rows][cols];
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    grid[i][j] = scan.nextInt();
-                }
-            }
-            solved = false;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        super.setVisible(true);
     }
 
     private Point[] findAdjacent(Point tile) {
@@ -90,8 +25,8 @@ public class MazeSolver extends Maze {
     }
 
     public boolean solve() {
-        steps = 0;
-        solved = traverse(this.start);
+        this.steps = 0;
+        this.solved = traverse(this.start);
         return solved;
     }
 
@@ -104,7 +39,6 @@ public class MazeSolver extends Maze {
         for (Point adja : adjacent) {
             if (isFreeTile(adja)) {
                 enter(adja);
-                this.repaint();
                 if (traverse(adja)) {
                     return true;
                 }
@@ -146,12 +80,35 @@ public class MazeSolver extends Maze {
         steps++;
     }
 
+    public int getValueAt(int rawX, int rawY) {
+        int x = (rawX / colSize) % cols;
+        int y = (rawY / rowSize) % rows;
+        return grid[y][x];
+    }
+
+    public boolean setValueAt(int rawX, int rawY, TileType type) {
+        int old = getValueAt(rawX, rawY);
+
+        if (type.value() != old) {
+            if(type.isExclusive() && this.findValue(type.value()) != null) {
+                return false; // can't set more than one exclusive tile
+            }
+            int x = (rawX / colSize) % cols;
+            int y = (rawY / rowSize) % rows;
+            grid[y][x] = type.value();
+            super.repaint();
+            return true;
+        }
+        System.out.println("Type: " + type.name() + "-> old:" + old);
+        return false;
+    }
+
     public int getSteps() {
         return this.steps;
     }
 
     private boolean isFinished(Point current) {
-        return current.equals(this.finish);
+        return current.equals(super.finish);
     }
 
     public boolean isSolved() {
