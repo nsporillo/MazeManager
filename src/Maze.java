@@ -1,43 +1,42 @@
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.util.Arrays;
-import java.util.Scanner;
 
-public abstract class Maze extends JPanel {
+public class Maze extends JPanel {
 
-    private File file;             // file associated with this maze
+    private TileType tooltip;
+    private Point start, finish;
+
     private String name;
-    protected Point start, finish; // start and end points of maze
-    protected int[][] grid;        // coordinate system
-    protected int rows, cols, rowSize, colSize; // # of rows and # of columns
-    protected TileType tooltip;
+    private int rows, cols, rowSize, colSize;
+    protected boolean solved = false, paint = false;
 
-    protected boolean paint = false;
+    protected int[][] grid;
 
-    public Maze(String mazeName) {
-        this.name = mazeName;
-        this.file = new File("mazes/" + name); // use maze directory
-        this.tooltip = TileType.START; // default to start position
+    public Maze(String name, int[][] grid) {
+        this.name = name;
+        this.rows = grid.length;
+        this.cols = grid[0].length;
+        this.grid = grid;
+        this.load();
+    }
+
+    public void change(Maze other) {
+        this.name = other.name;
+        this.rows = other.rows;
+        this.cols = other.cols;
+        this.grid = other.grid;
+        this.load();
     }
 
     public void load() {
-        try {
-            Scanner scan = new Scanner(this.file);
-            rows = scan.nextInt();
-            cols = scan.nextInt();
-            colSize = (int) Math.floor((double) getPreferredSize().width / (double) cols);
-            rowSize = (int) Math.floor((double) getPreferredSize().height / (double) rows);
-            grid = new int[rows][cols];
-            for (int i = 0; i < rows; i++) {
-                for (int j = 0; j < cols; j++) {
-                    grid[i][j] = scan.nextInt();
-                }
-            }
-            this.paint = true;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+        this.colSize = (int) ((double) getPreferredSize().width / (double) this.cols);
+        this.rowSize = (int) ((double) getPreferredSize().height / (double) this.rows);
+        this.tooltip = TileType.START;
+        this.paint = true;
+        this.solved = false;
+        this.start = this.findValue(TileType.START);
+        this.finish = this.findValue(TileType.END);
+        super.setVisible(true);
     }
 
     @Override
@@ -81,7 +80,7 @@ public abstract class Maze extends JPanel {
         g.setColor(Color.black);
         for (int r = 0; r <= rows; r++) {
             int size = r * rowSize;
-            g.drawLine(0, size, getPreferredSize().width + 3 - colSize, size);
+            g.drawLine(0, size, getPreferredSize().width, size);
         }
         for (int c = 0; c <= cols; c++) {
             int size = c * colSize;
@@ -89,8 +88,122 @@ public abstract class Maze extends JPanel {
         }
     }
 
+    public void reset() {
+        for (int y = 0; y < cols; y++) {
+            for (int x = 0; x < rows; x++) {
+                TileType type = TileType.to(grid[x][y]);
+                if (type == TileType.TRIED || type == TileType.SOLVED) {
+                    grid[x][y] = TileType.OPEN.value();
+                }
+            }
+        }
+        this.repaint();
+        this.solved = false;
+    }
+
+    private Point[] findAdjacent(Point tile) {
+        Point[] adjacent = new Point[4];
+        adjacent[0] = new Point(tile.x + 1, tile.y); // right
+        adjacent[1] = new Point(tile.x - 1, tile.y); // left
+        adjacent[2] = new Point(tile.x, tile.y - 1); // up
+        adjacent[3] = new Point(tile.x, tile.y + 1); // down
+        return adjacent;
+    }
+
+    private boolean traverse(Point tile) {
+        if (isFinished(tile)) {
+            grid[tile.x][tile.y] = TileType.END.value();
+            return true;
+        }
+        Point[] adjacent = findAdjacent(tile);
+        for (Point adja : adjacent) {
+            if (isFreeTile(adja)) {
+                enter(adja);
+                if (traverse(adja)) {
+                    return true;
+                }
+                exit(adja);
+            }
+        }
+        return false;
+    }
+
+    private Point findValue(TileType type) {
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                if (grid[i][j] == type.value()) {
+                    return new Point(i, j);
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean isFreeTile(Point tile) {
+        int x = tile.x;
+        int y = tile.y;
+        // check if tile is inside the grid
+        if (x < 0 || x >= rows || y < 0 || y >= cols) {
+            return false;
+        }
+        // check if tile is open or the end tile
+        return grid[x][y] == TileType.OPEN.value() || grid[x][y] == TileType.END.value();
+    }
+
+    private void exit(Point tile) {
+        grid[tile.x][tile.y] = TileType.TRIED.value();
+    }
+
+    private void enter(Point tile) {
+        grid[tile.x][tile.y] = TileType.SOLVED.value();
+    }
+
+    private boolean isFinished(Point current) {
+        return current.equals(this.finish);
+    }
+
+    public int getValueAt(int rawX, int rawY) {
+        int x = (rawX / colSize) % cols;
+        int y = (rawY / rowSize) % rows;
+        return grid[y][x];
+    }
+
+    public boolean setValueAt(Point tile, TileType type) {
+        int rawX = (int) tile.getX();
+        int rawY = (int) tile.getY();
+        TileType old = TileType.to(getValueAt(rawX, rawY));
+
+        if (type != old) {
+            if (type.isExclusive() && this.findValue(type) != null) {
+                return false; // can't set more than one exclusive tile
+            }
+            int x = (rawX / colSize) % cols;
+            int y = (rawY / rowSize) % rows;
+            grid[y][x] = type.value();
+            if (old.isExclusive() || type.isExclusive()) {
+                this.start = this.findValue(TileType.START);
+                this.finish = this.findValue(TileType.END);
+            }
+            super.repaint();
+            return true;
+        }
+        return false;
+    }
+
+    public boolean solve() {
+        if (start == null || finish == null) {
+            return false;
+        }
+        this.solved = traverse(this.start);
+        return solved;
+    }
+
+    public boolean isSolved() {
+        return solved;
+    }
+
     public TileType getTooltip() {
-        return this.tooltip;
+        return tooltip;
     }
 
     public void setTooltip(TileType tooltip) {
@@ -98,12 +211,50 @@ public abstract class Maze extends JPanel {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
-    @Override
-    public String toString() {
-        return "Maze{grid=" + Arrays.toString(grid) + ", rows=" + rows + ", cols=" + cols + ", rowSize=" + rowSize +
-                ", colSize=" + colSize + ", tooltip=" + tooltip + ", paint=" + paint + '}';
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Point getStart() {
+        return start;
+    }
+
+    public void setStart(Point start) {
+        this.start = start;
+    }
+
+    public Point getFinish() {
+        return finish;
+    }
+
+    public void setFinish(Point finish) {
+        this.finish = finish;
+    }
+
+    public void setRows(int rows) {
+        this.rows = rows;
+    }
+
+    public void setCols(int cols) {
+        this.cols = cols;
+    }
+
+    public int[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(int[][] grid) {
+        this.grid = grid;
     }
 }
