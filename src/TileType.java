@@ -1,12 +1,17 @@
 
 public enum TileType {
 
-    OPEN(0), WALL(1), TRIED(2), START(3), END(4), SOLVED(5);
+    OPEN(0, false),
+    WALL(1, false),
+    TRIED(2, false),
+    SOLVED(5, false);
 
     private int value;
+    private boolean exclusive;
 
-    TileType(int value) {
+    TileType(int value, boolean exclusive) {
         this.value = value;
+        this.exclusive = exclusive;
     }
 
     public int value() {
@@ -14,19 +19,15 @@ public enum TileType {
     }
 
     public static TileType to(int value) {
-        if(value == 0) {
-            return OPEN;
-        } else if(value == 1) {
-            return WALL;
-        } else if(value == 2) {
-            return TRIED;
-        } else if(value == 3) {
-            return START;
-        } else if(value == 4) {
-            return END;
-        } else if(value == 5) {
-            return SOLVED;
+        for (TileType type : values()) {
+            if (type.value() == value) {
+                return type;
+            }
         }
         throw new IllegalArgumentException("value=" + value + " is invalid for a tile");
+    }
+
+    public boolean isExclusive() {
+        return this.exclusive;
     }
 }
