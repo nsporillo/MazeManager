@@ -1,11 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public abstract class Maze extends JPanel {
 
     private File file;             // file associated with this maze
+    private String name;
     protected Point start, finish; // start and end points of maze
     protected int[][] grid;        // coordinate system
     protected int rows, cols, rowSize, colSize; // # of rows and # of columns
@@ -14,7 +16,8 @@ public abstract class Maze extends JPanel {
     protected boolean paint = false;
 
     public Maze(String mazeName) {
-        this.file = new File("mazes/" + mazeName); // use maze directory
+        this.name = mazeName;
+        this.file = new File("mazes/" + name); // use maze directory
         this.tooltip = TileType.START; // default to start position
     }
 
@@ -94,19 +97,13 @@ public abstract class Maze extends JPanel {
         this.tooltip = tooltip;
     }
 
-    public int getCols() {
-        return this.cols;
+    public String getName() {
+        return this.name;
     }
 
-    public int getColSize() {
-        return this.colSize;
-    }
-
-    public int getRows() {
-        return this.rows;
-    }
-
-    public int getRowSize() {
-        return this.rowSize;
+    @Override
+    public String toString() {
+        return "Maze{grid=" + Arrays.toString(grid) + ", rows=" + rows + ", cols=" + cols + ", rowSize=" + rowSize +
+                ", colSize=" + colSize + ", tooltip=" + tooltip + ", paint=" + paint + '}';
     }
 }

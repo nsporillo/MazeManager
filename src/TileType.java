@@ -22,7 +22,7 @@ public enum TileType {
 
     public static TileType to(int value) {
         for (TileType type : values()) {
-            if (type.value() == value) {
+            if (type.value == value) {
                 return type;
             }
         }
@@ -31,5 +31,10 @@ public enum TileType {
 
     public boolean isExclusive() {
         return this.exclusive;
+    }
+
+    @Override
+    public String toString() {
+        return "TileType[" + "value=" + value + ", exclusive=" + exclusive + ']';
     }
 }
