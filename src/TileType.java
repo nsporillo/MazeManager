@@ -1,23 +1,22 @@
+import java.awt.*;
 
 public enum TileType {
 
-    OPEN(0, false),
-    WALL(1, false),
-    TRIED(2, false),
-    START(3, true), // can only be one start point
-    END(4, true),   // can only be one end point
-    SOLVED(5, false);
+    OPEN(0, Color.WHITE, false),
+    WALL(1, Color.BLUE, false),
+    TRIED(2, Color.PINK, false),
+    START(3, Color.MAGENTA, true), // can only be one start point
+    END(4, Color.CYAN, true),   // can only be one end point
+    SOLVED(5, Color.GREEN, false);
 
     private int value;
+    private Color color;
     private boolean exclusive;
 
-    TileType(int value, boolean exclusive) {
+    TileType(int value, Color color, boolean exclusive) {
         this.value = value;
+        this.color = color;
         this.exclusive = exclusive;
-    }
-
-    public int value() {
-        return this.value;
     }
 
     public static TileType to(int value) {
@@ -27,6 +26,14 @@ public enum TileType {
             }
         }
         throw new IllegalArgumentException("value=" + value + " is invalid for a tile");
+    }
+
+    public int value() {
+        return this.value;
+    }
+
+    public Color color() {
+        return this.color;
     }
 
     public boolean isExclusive() {

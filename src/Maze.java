@@ -41,7 +41,7 @@ public class Maze extends JPanel {
 
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(500, 400);
+        return new Dimension(550, 450);
     }
 
     @Override
@@ -53,26 +53,7 @@ public class Maze extends JPanel {
         for (int y = 0; y < cols; y++) {
             for (int x = 0; x < rows; x++) {
                 TileType type = TileType.to(grid[x][y]);
-                switch (type) {
-                    case OPEN:
-                        g.setColor(Color.WHITE);
-                        break;
-                    case WALL:
-                        g.setColor(Color.BLUE);
-                        break;
-                    case TRIED:
-                        g.setColor(Color.PINK);
-                        break;
-                    case START:
-                        g.setColor(Color.BLACK);
-                        break;
-                    case END:
-                        g.setColor(Color.BLACK);
-                        break;
-                    case SOLVED:
-                        g.setColor(Color.GREEN);
-                        break;
-                }
+                g.setColor(type.color());
                 g.fillRect(y * colSize, x * rowSize, colSize, rowSize);
             }
         }
