@@ -3,24 +3,41 @@ import java.awt.event.ActionListener;
 
 public class MenuListener implements ActionListener {
 
-    private Maze maze;
+    private MazeSolver mazeSolver;
 
-    public MenuListener(Maze maze) {
-        this.maze = maze;
+    public MenuListener(MazeSolver mazeSolver) {
+        this.mazeSolver = mazeSolver;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("Solve")) {
-            if (maze.isSolved()) {
-                maze.load();
+        String action = e.getActionCommand();
+        if (action.equals("New")) {
+            // enter name, size
+        } else if (action.equals("Load")) {
+            // open dialog, list mazes, listen for choice
+        } else if (action.equals("Save")) {
+            // enter name, save in mazes directory
+        } else if (action.equals("Start")) {
+            mazeSolver.setTooltip(TileType.START);
+        } else if (action.equals("Open")) {
+            mazeSolver.setTooltip(TileType.OPEN);
+        } else if (action.equals("Wall")) {
+            mazeSolver.setTooltip(TileType.WALL);
+        } else if (action.equals("Finish")) {
+            mazeSolver.setTooltip(TileType.END);
+        } else if (action.equals("Solve")) {
+            if (mazeSolver.isSolved()) {
+                mazeSolver.load();
             }
-            if (maze.solve()) {
-                System.out.println("Solved in " + maze.getSteps());
+            if (mazeSolver.solve()) {
+                System.out.println("Solved in " + mazeSolver.getSteps());
             } else {
                 System.out.println("Could not solve");
             }
-            maze.repaint();
+            mazeSolver.repaint();
+        } else if (action.equals("Reset")) {
+            // clear solve
         }
     }
 }
