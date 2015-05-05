@@ -34,7 +34,7 @@ public class MazeFrame {
         mazeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mazeFrame.getContentPane().setLayout(new CardLayout());
         mazeFrame.setVisible(true);
-        maze = MazeFactory.initialMaze("test", 5, 5);
+        maze = MazeFactory.initialMaze("test", 6, 6);
         mazeFrame.getContentPane().add(maze);
         MenuListener ml = new MenuListener(this);
 
@@ -45,35 +45,41 @@ public class MazeFrame {
         menuBar.add(mnFile);
 
         JMenuItem mnNew = new JMenuItem("New");
-        mnFile.add(mnNew);
+
         mnNew.addActionListener(ml);
+        mnFile.add(mnNew);
 
         JMenuItem mnLoad = new JMenuItem("Load");
-        mnFile.add(mnLoad);
         mnLoad.addActionListener(ml);
+        mnFile.add(mnLoad);
 
         JMenuItem mnSave = new JMenuItem("Save");
-        mnFile.add(mnSave);
         mnSave.addActionListener(ml);
+        mnFile.add(mnSave);
 
         JMenu mnTile = new JMenu("Tile");
         menuBar.add(mnTile);
 
         JMenuItem start = new JMenuItem("Start");
-        mnTile.add(start);
+        start.setIcon(new ImageIcon(TileType.START.toIcon(16, 16)));
         start.addActionListener(ml);
+        mnTile.add(start);
 
         JMenuItem open = new JMenuItem("Open");
-        mnTile.add(open);
+        open.setIcon(new ImageIcon(TileType.OPEN.toIcon(16, 16)));
         open.addActionListener(ml);
+        mnTile.add(open);
 
         JMenuItem wall = new JMenuItem("Wall");
-        mnTile.add(wall);
+        wall.setIcon(new ImageIcon(TileType.WALL.toIcon(16, 16)));
         wall.addActionListener(ml);
+        mnTile.add(wall);
 
         JMenuItem finish = new JMenuItem("Finish");
-        mnTile.add(finish);
+        finish.setIcon(new ImageIcon(TileType.END.toIcon(16, 16)));
         finish.addActionListener(ml);
+        mnTile.add(finish);
+
 
         JMenu mnRun = new JMenu("Run");
         menuBar.add(mnRun);
