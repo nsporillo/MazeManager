@@ -207,32 +207,12 @@ public class Maze extends JPanel {
         this.name = name;
     }
 
-    public Point getStart() {
-        return start;
-    }
-
-    public void setStart(Point start) {
-        this.start = start;
-    }
-
-    public Point getFinish() {
-        return finish;
-    }
-
-    public void setFinish(Point finish) {
-        this.finish = finish;
-    }
-
     public void setRows(int rows) {
         this.rows = rows;
     }
 
     public void setCols(int cols) {
         this.cols = cols;
-    }
-
-    public int[][] getGrid() {
-        return grid;
     }
 
     public void setGrid(int[][] grid) {
