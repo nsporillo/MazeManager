@@ -1,13 +1,14 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public enum TileType {
 
-    OPEN(0, Color.WHITE, false),
-    WALL(1, Color.BLUE, false),
-    TRIED(2, Color.PINK, false),
-    START(3, Color.MAGENTA, true), // can only be one start point
-    END(4, Color.CYAN, true),   // can only be one end point
-    SOLVED(5, Color.GREEN, false);
+    OPEN(0, new Color(245, 245, 245), false),
+    WALL(1, new Color(100, 120, 255), false),
+    TRIED(2, new Color(255, 170, 170), false),
+    START(3, new Color(220, 220, 0), true), // can only be one start point
+    END(4, new Color(255, 160, 0), true),   // can only be one end point
+    SOLVED(5, new Color(0, 250, 50), false);
 
     private int value;
     private Color color;
@@ -38,6 +39,14 @@ public enum TileType {
 
     public boolean isExclusive() {
         return this.exclusive;
+    }
+
+    public BufferedImage toIcon(int width, int height) {
+        BufferedImage icon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics graphics = icon.createGraphics();
+        graphics.setColor(this.color);
+        graphics.fillRect(0, 0, icon.getWidth(), icon.getHeight());
+        return icon;
     }
 
     @Override
