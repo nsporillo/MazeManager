@@ -64,23 +64,23 @@ public class MazeFrame {
         mnFile.add(mnSave);
         mnSave.addActionListener(ml);
 
-        JMenu mnEdit = new JMenu("Edit");
-        menuBar.add(mnEdit);
+        JMenu mnTile = new JMenu("Tile");
+        menuBar.add(mnTile);
 
         JMenuItem start = new JMenuItem("Start");
-        mnEdit.add(start);
+        mnTile.add(start);
         start.addActionListener(ml);
 
         JMenuItem open = new JMenuItem("Open");
-        mnEdit.add(open);
+        mnTile.add(open);
         open.addActionListener(ml);
 
         JMenuItem wall = new JMenuItem("Wall");
-        mnEdit.add(wall);
+        mnTile.add(wall);
         wall.addActionListener(ml);
 
         JMenuItem finish = new JMenuItem("Finish");
-        mnEdit.add(finish);
+        mnTile.add(finish);
         finish.addActionListener(ml);
 
         JMenu mnRun = new JMenu("Run");
