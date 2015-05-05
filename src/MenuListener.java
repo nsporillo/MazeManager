@@ -1,10 +1,10 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 
-import static javax.swing.JOptionPane.QUESTION_MESSAGE;
-import static javax.swing.JOptionPane.showInputDialog;
+import static javax.swing.JOptionPane.*;
 
 public class MenuListener implements ActionListener {
 
@@ -21,7 +21,15 @@ public class MenuListener implements ActionListener {
             String title = "New maze";
             String name = showInputDialog(null, "Enter maze name", title, QUESTION_MESSAGE);
             int rows = Integer.parseInt(showInputDialog(null, "Enter number of rows", title, QUESTION_MESSAGE));
+            if (rows < 2) {
+                showMessageDialog(null, "A maze must have at least 2 rows", "Error", ERROR_MESSAGE);
+                return;
+            }
             int cols = Integer.parseInt(showInputDialog(null, "Enter number of columns", title, QUESTION_MESSAGE));
+            if (cols < 2) {
+                showMessageDialog(null, "A maze must have at least 2 columns", "Error", ERROR_MESSAGE);
+                return;
+            }
             frame.getMaze().setName(name);
             frame.getMaze().setGrid(MazeFactory.getEmptyGrid(rows, cols));
             frame.getMaze().setRows(rows);
@@ -42,7 +50,7 @@ public class MenuListener implements ActionListener {
                 choices[i] = name;
             }
             Object choice = showInputDialog(null, "Select maze to load", "Load maze", QUESTION_MESSAGE, null, choices, choices[0]);
-            String selection = (String)choice;
+            String selection = (String) choice;
             try {
                 Maze newMaze = MazeFactory.load(selection);
                 frame.getMaze().change(newMaze);
@@ -70,7 +78,7 @@ public class MenuListener implements ActionListener {
                 frame.getMaze().reset(); // if we're solved already, reset first
             }
             if (!frame.getMaze().solve()) {
-                System.out.println("Could not solve");
+                showMessageDialog(null, "Could not solve maze!", "Error", JOptionPane.ERROR_MESSAGE);
             }
             frame.getMaze().repaint();
         } else if (action.equals("Reset")) {
