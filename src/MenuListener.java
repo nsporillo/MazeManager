@@ -37,7 +37,7 @@ public class MenuListener implements ActionListener {
             }
             mazeSolver.repaint();
         } else if (action.equals("Reset")) {
-            // clear solve
+            mazeSolver.reset();
         }
     }
 }

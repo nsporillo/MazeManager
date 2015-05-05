@@ -86,11 +86,13 @@ public class MazeSolver extends Maze {
         return grid[y][x];
     }
 
-    public boolean setValueAt(int rawX, int rawY, TileType type) {
+    public boolean setValueAt(Point tile, TileType type) {
+        int rawX = (int) tile.getX();
+        int rawY = (int) tile.getY();
         int old = getValueAt(rawX, rawY);
 
         if (type.value() != old) {
-            if(type.isExclusive() && this.findValue(type.value()) != null) {
+            if (type.isExclusive() && this.findValue(type.value()) != null) {
                 return false; // can't set more than one exclusive tile
             }
             int x = (rawX / colSize) % cols;
@@ -99,7 +101,6 @@ public class MazeSolver extends Maze {
             super.repaint();
             return true;
         }
-        System.out.println("Type: " + type.name() + "-> old:" + old);
         return false;
     }
 
@@ -113,5 +114,19 @@ public class MazeSolver extends Maze {
 
     public boolean isSolved() {
         return solved;
+    }
+
+    public void reset() {
+        this.steps = 0;
+        for (int y = 0; y < cols; y++) {
+            for (int x = 0; x < rows; x++) {
+                TileType type = TileType.to(grid[x][y]);
+                if (type == TileType.TRIED || type == TileType.SOLVED) {
+                    grid[x][y] = TileType.OPEN.value();
+                }
+            }
+        }
+        this.repaint();
+        this.solved = false;
     }
 }
