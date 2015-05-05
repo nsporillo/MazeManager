@@ -3,9 +3,7 @@ import java.awt.*;
 
 public class MazeFrame {
 
-    private JFrame mazeFrame;
     private Maze maze;
-    private MouseHandler handler = new MouseHandler(this);
 
     /**
      * Launch the application.
@@ -17,6 +15,7 @@ public class MazeFrame {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
                     MazeFrame window = new MazeFrame();
+                    window.initialize();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -25,17 +24,10 @@ public class MazeFrame {
     }
 
     /**
-     * Create the application.
-     */
-    public MazeFrame() {
-        initialize();
-    }
-
-    /**
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        mazeFrame = new JFrame();
+        JFrame mazeFrame = new JFrame();
         mazeFrame.setTitle("MazeManager");
         mazeFrame.setResizable(false);
         mazeFrame.setSize(508, 458);
@@ -94,6 +86,7 @@ public class MazeFrame {
         mnRun.add(mnReset);
         mnReset.addActionListener(ml);
 
+        MouseHandler handler = new MouseHandler(this);
         maze.addMouseListener(handler);
         maze.addMouseMotionListener(handler);
     }
