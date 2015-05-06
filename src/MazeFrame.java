@@ -30,10 +30,8 @@ public class MazeFrame {
         JFrame mazeFrame = new JFrame();
         mazeFrame.setTitle("MazeManager");
         mazeFrame.setResizable(false);
-        mazeFrame.setSize(600, 500);
         mazeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mazeFrame.getContentPane().setLayout(new CardLayout());
-        mazeFrame.setVisible(true);
         maze = MazeFactory.initialMaze("test", 6, 6);
         mazeFrame.getContentPane().add(maze);
         MenuListener ml = new MenuListener(this);
@@ -97,6 +95,8 @@ public class MazeFrame {
         maze.addMouseMotionListener(handler);
 
         mazeFrame.pack(); // adjust frame size to size of sub components
+        mazeFrame.setLocationRelativeTo(null); // center frame
+        mazeFrame.setVisible(true);
     }
 
     public Maze getMaze() {
