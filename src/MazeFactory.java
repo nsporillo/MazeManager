@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class MazeFactory {
@@ -48,10 +49,8 @@ public class MazeFactory {
 
     public static int[][] getEmptyGrid(int rows, int cols) {
         int[][] grid = new int[rows][cols];
-        for (int i = 0; i < rows; i++) {
-            for (int j = 0; j < cols; j++) {
-                grid[i][j] = TileType.OPEN.value();
-            }
+        for(int[] row: grid) {
+            Arrays.fill(row, TileType.OPEN.value());
         }
         return grid;
     }
