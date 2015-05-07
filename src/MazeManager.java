@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: MazeManager
+ * Description: An interface for editing and solving mazes with ease.
+ */
 public class MazeManager {
 
     private Maze maze;
@@ -99,6 +105,11 @@ public class MazeManager {
         mazeFrame.setVisible(true);
     }
 
+    /**
+     * Gets current maze object
+     *
+     * @return current {@link Maze} object
+     */
     public Maze getMaze() {
         return this.maze;
     }
