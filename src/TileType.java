@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
  */
 public enum TileType {
 
+    NULL(-1, new Color(0, 0, 0), false), // for unknown types
     OPEN(0, new Color(245, 245, 245), false),
     WALL(1, new Color(100, 120, 255), false),
     TRIED(2, new Color(255, 170, 170), false),
@@ -42,7 +43,7 @@ public enum TileType {
                 return type;
             }
         }
-        throw new IllegalArgumentException("value=" + value + " is invalid for a tile");
+        return NULL; // couldnt find what value was in the grid, use null
     }
 
     /**
