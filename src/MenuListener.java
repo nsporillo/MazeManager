@@ -6,6 +6,12 @@ import java.io.IOException;
 
 import static javax.swing.JOptionPane.*;
 
+/**
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: MenuListener
+ * Description: Listener for all menu actions. Creates dialogs, changes tooltips, solves, etc
+ */
 public class MenuListener implements ActionListener {
 
     private MazeManager frame;

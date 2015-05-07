@@ -4,6 +4,12 @@ import java.io.PrintWriter;
 import java.util.Arrays;
 import java.util.Scanner;
 
+/**
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: MazeFactory
+ * Description: Utility class for maze IO
+ */
 public class MazeFactory {
     private static String root = "mazes"; // mazes directory
 

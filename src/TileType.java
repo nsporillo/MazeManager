@@ -2,7 +2,10 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 /**
- * Represents all possible values on the maze grid.
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: MazeManager
+ * Description: Enumeration which represents all possible values on the maze grid.
  */
 public enum TileType {
 

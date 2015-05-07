@@ -5,7 +5,28 @@ import java.awt.*;
  * Author: Nick Porillo
  * Date: 5/7/15
  * Name: MazeManager
- * Description: An interface for editing and solving mazes with ease.
+ * Description: Application class, sets up application window and components
+ */
+
+/**
+ * Class list:
+ * - MazeManager: Application class, sets up application window and components
+ * - Maze: Object that represents a maze. Extends JPanel (handles graphics)
+ * - MazeFactory: Utility class for loading and saving mazes to file
+ * - MenuListener: Listener class for menu selections (also creates dialogs)
+ * - MouseHandler: Mouse listener to handle editing maze tiles
+ * - TileType: Enumeration of all available grid tile types
+ */
+
+/**
+ * Psuedocode:
+ *
+ * - Set look and feel of application
+ * - Instantiate new MazeManager object
+ * - Initialize by creating swing components and listeners
+ * - Load initial maze, set to visible
+ * - Add menu listener to all menu items
+ * - Set frame mouse listeners
  */
 public class MazeManager {
 

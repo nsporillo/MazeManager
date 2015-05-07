@@ -1,6 +1,12 @@
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: Maze
+ * Description: Object that represents a maze. Handles solving and rendering
+ */
 public class Maze extends JPanel {
 
     private TileType tooltip;

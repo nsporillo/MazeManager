@@ -2,6 +2,12 @@ import javax.swing.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Author: Nick Porillo
+ * Date: 5/7/15
+ * Name: MouseHandler
+ * Description: MouseAdapter which will set tile values
+ */
 public class MouseHandler extends MouseAdapter {
 
     private MazeManager frame;
@@ -57,7 +63,7 @@ public class MouseHandler extends MouseAdapter {
     }
 
     /**
-     * Handles tile setting
+     * Handles TileType setting
      *
      * @param e    mouse event
      * @param drag if mouse was dragged
