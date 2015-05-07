@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 
 public class MouseHandler extends MouseAdapter {
 
-    private MazeFrame frame;
+    private MazeManager frame;
 
-    public MouseHandler(MazeFrame frame) {
+    public MouseHandler(MazeManager frame) {
         this.frame = frame;
     }
 

@@ -8,9 +8,9 @@ import static javax.swing.JOptionPane.*;
 
 public class MenuListener implements ActionListener {
 
-    private MazeFrame frame;
+    private MazeManager frame;
 
-    public MenuListener(MazeFrame frame) {
+    public MenuListener(MazeManager frame) {
         this.frame = frame;
     }
 

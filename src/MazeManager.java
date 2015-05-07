@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
-public class MazeFrame {
+public class MazeManager {
 
     private Maze maze;
 
@@ -14,7 +14,7 @@ public class MazeFrame {
             public void run() {
                 try {
                     UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-                    MazeFrame window = new MazeFrame();
+                    MazeManager window = new MazeManager();
                     window.initialize();
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -32,7 +32,7 @@ public class MazeFrame {
         mazeFrame.setResizable(false);
         mazeFrame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         mazeFrame.getContentPane().setLayout(new CardLayout());
-        maze = MazeFactory.initialMaze("test", 6, 6);
+        maze = MazeFactory.initialMaze("test", 6, 6); // load an empty maze
         mazeFrame.getContentPane().add(maze);
         MenuListener ml = new MenuListener(this);
 
@@ -91,11 +91,11 @@ public class MazeFrame {
         mnReset.addActionListener(ml);
 
         MouseHandler handler = new MouseHandler(this);
-        maze.addMouseListener(handler);
-        maze.addMouseMotionListener(handler);
+        maze.addMouseListener(handler); // handle mouse clicks
+        maze.addMouseMotionListener(handler); // handle mouse drags
 
         mazeFrame.pack(); // adjust frame size to size of sub components
-        mazeFrame.setLocationRelativeTo(null); // center frame
+        mazeFrame.setLocationRelativeTo(null); // centers frame
         mazeFrame.setVisible(true);
     }
 
