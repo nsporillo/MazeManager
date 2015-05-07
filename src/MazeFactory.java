@@ -7,8 +7,6 @@ import java.util.Scanner;
 public class MazeFactory {
     private static String root = "mazes"; // mazes directory
 
-
-
     /**
      * Generates an initial, empty maze
      *
