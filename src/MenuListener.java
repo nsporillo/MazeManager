@@ -52,13 +52,9 @@ public class MenuListener implements ActionListener {
                 return;
             }
 
-            // we reuse the maze object
-            frame.getMaze().setName(name); // update name
-            frame.getMaze().setGrid(MazeFactory.getEmptyGrid(rows, cols)); // update grid
-            frame.getMaze().setRows(rows); // update rows
-            frame.getMaze().setCols(cols); // update columns
-            frame.getMaze().load();        // loads rest of maze
-            frame.getMaze().repaint();     // repaint panel
+            Maze newMaze = MazeFactory.initialMaze(name, rows, cols);
+            frame.getMaze().change(newMaze); // reuse maze object, just change some values to the new one
+            frame.getMaze().repaint();       // repaint panel
         } else if (action.equals("Load")) {
             // open dialog, list mazes, then load
 
@@ -76,7 +72,7 @@ public class MenuListener implements ActionListener {
             }
             Object choice = showInputDialog(null, "Select maze to load", "Load maze", QUESTION_MESSAGE, null, choices, choices[0]);
             String selection = (String) choice;
-            if(selection == null) return; // dialog was closed, move along
+            if (selection == null) return; // dialog was closed, move along
             try {
                 Maze newMaze = MazeFactory.load(selection); // load selection
                 frame.getMaze().change(newMaze); // update maze
