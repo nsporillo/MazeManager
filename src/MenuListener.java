@@ -21,39 +21,40 @@ public class MenuListener implements ActionListener {
             String title = "New maze"; // base dialog title
 
             // open maze name dialog
-            String name = showInputDialog(null, "Enter maze name", title, QUESTION_MESSAGE);
+            String name = showInputDialog(frame.getMaze(), "Enter maze name", title, QUESTION_MESSAGE);
+            if (name == null) return; // dialog was closed, move along
+
             title += " - " + name; // append maze name to dialog title
 
             // open row dialog
-            String strRows = showInputDialog(null, "Enter number of rows", title, QUESTION_MESSAGE);
-            if (strRows == null) {
-                return; // dialog was closed, just ignore
-            }
+            String strRows = showInputDialog(frame.getMaze(), "Enter number of rows", title, QUESTION_MESSAGE);
+            if (strRows == null) return; // dialog was closed, move along
+
             int rows = Integer.parseInt(strRows);
             if (rows < 2) {
-                showMessageDialog(null, "A maze must have at least 2 rows", "Error", ERROR_MESSAGE);
+                showMessageDialog(frame.getMaze(), "A maze must have at least 2 rows", "Error", ERROR_MESSAGE);
                 return;
             }
 
             // open column dialog
-            String strCols = showInputDialog(null, "Enter number of columns", title, QUESTION_MESSAGE);
-            if (strCols == null) {
-                return; // dialog was closed, just ignore
-            }
+            String strCols = showInputDialog(frame.getMaze(), "Enter number of columns", title, QUESTION_MESSAGE);
+            if (strCols == null) return; // dialog was closed, move along
+
             int cols = Integer.parseInt(strCols);
             if (cols < 2) {
-                showMessageDialog(null, "A maze must have at least 2 columns", "Error", ERROR_MESSAGE);
+                showMessageDialog(frame.getMaze(), "A maze must have at least 2 columns", "Error", ERROR_MESSAGE);
                 return;
             }
 
-            frame.getMaze().setName(name);
-            frame.getMaze().setGrid(MazeFactory.getEmptyGrid(rows, cols));
-            frame.getMaze().setRows(rows);
-            frame.getMaze().setCols(cols);
-            frame.getMaze().load();
-            frame.getMaze().repaint();
+            // we reuse the maze object
+            frame.getMaze().setName(name); // update name
+            frame.getMaze().setGrid(MazeFactory.getEmptyGrid(rows, cols)); // update grid
+            frame.getMaze().setRows(rows); // update rows
+            frame.getMaze().setCols(cols); // update columns
+            frame.getMaze().load();        // loads rest of maze
+            frame.getMaze().repaint();     // repaint panel
         } else if (action.equals("Load")) {
-            // open dialog, list mazes, listen for choice
+            // open dialog, list mazes, then load
 
             File root = new File("mazes");
             File[] files = root.listFiles();
@@ -69,10 +70,11 @@ public class MenuListener implements ActionListener {
             }
             Object choice = showInputDialog(null, "Select maze to load", "Load maze", QUESTION_MESSAGE, null, choices, choices[0]);
             String selection = (String) choice;
+            if(selection == null) return; // dialog was closed, move along
             try {
-                Maze newMaze = MazeFactory.load(selection);
-                frame.getMaze().change(newMaze);
-                frame.getMaze().repaint();
+                Maze newMaze = MazeFactory.load(selection); // load selection
+                frame.getMaze().change(newMaze); // update maze
+                frame.getMaze().repaint(); // repaint panel
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
@@ -93,12 +95,12 @@ public class MenuListener implements ActionListener {
             frame.getMaze().setTooltip(TileType.END);
         } else if (action.equals("Solve")) {
             if (frame.getMaze().isSolved()) {
-                frame.getMaze().reset(); // if we're solved already, reset first
+                frame.getMaze().reset(); // if we're solved already, reset
             }
             if (!frame.getMaze().solve()) {
-                showMessageDialog(null, "Could not solve maze!", "Error", JOptionPane.ERROR_MESSAGE);
+                showMessageDialog(frame.getMaze(), "Could not solve maze!", "Error", JOptionPane.ERROR_MESSAGE);
             }
-            frame.getMaze().repaint();
+            frame.getMaze().repaint(); // repaint panel
         } else if (action.equals("Reset")) {
             frame.getMaze().reset();
         }
