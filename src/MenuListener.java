@@ -18,18 +18,34 @@ public class MenuListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String action = e.getActionCommand();
         if (action.equals("New")) {
-            String title = "New maze";
+            String title = "New maze"; // base dialog title
+
+            // open maze name dialog
             String name = showInputDialog(null, "Enter maze name", title, QUESTION_MESSAGE);
-            int rows = Integer.parseInt(showInputDialog(null, "Enter number of rows", title, QUESTION_MESSAGE));
+            title += " - " + name; // append maze name to dialog title
+
+            // open row dialog
+            String strRows = showInputDialog(null, "Enter number of rows", title, QUESTION_MESSAGE);
+            if (strRows == null) {
+                return; // dialog was closed, just ignore
+            }
+            int rows = Integer.parseInt(strRows);
             if (rows < 2) {
                 showMessageDialog(null, "A maze must have at least 2 rows", "Error", ERROR_MESSAGE);
                 return;
             }
-            int cols = Integer.parseInt(showInputDialog(null, "Enter number of columns", title, QUESTION_MESSAGE));
+
+            // open column dialog
+            String strCols = showInputDialog(null, "Enter number of columns", title, QUESTION_MESSAGE);
+            if (strCols == null) {
+                return; // dialog was closed, just ignore
+            }
+            int cols = Integer.parseInt(strCols);
             if (cols < 2) {
                 showMessageDialog(null, "A maze must have at least 2 columns", "Error", ERROR_MESSAGE);
                 return;
             }
+
             frame.getMaze().setName(name);
             frame.getMaze().setGrid(MazeFactory.getEmptyGrid(rows, cols));
             frame.getMaze().setRows(rows);
@@ -39,9 +55,11 @@ public class MenuListener implements ActionListener {
         } else if (action.equals("Load")) {
             // open dialog, list mazes, listen for choice
 
-            File[] files = new File("mazes").listFiles();
-            if (files == null) {
-                System.out.println("Could not find files in mazes directory!");
+            File root = new File("mazes");
+            File[] files = root.listFiles();
+            if (files == null || files.length == 0) {
+                String path = root.getAbsolutePath();
+                showMessageDialog(frame.getMaze(), "Could not find files in mazes directory\n" + path, "Error", ERROR_MESSAGE);
                 return;
             }
             Object[] choices = new Object[files.length];
