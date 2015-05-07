@@ -1,6 +1,9 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+/**
+ * Represents all possible values on the maze grid.
+ */
 public enum TileType {
 
     OPEN(0, new Color(245, 245, 245), false),
@@ -14,12 +17,25 @@ public enum TileType {
     private Color color;
     private boolean exclusive;
 
+    /**
+     * Constructs a new TileType
+     *
+     * @param value     grid value
+     * @param color     tile color
+     * @param exclusive single occurrence or not
+     */
     TileType(int value, Color color, boolean exclusive) {
         this.value = value;
         this.color = color;
         this.exclusive = exclusive;
     }
 
+    /**
+     * Converts a grid value to a TileType
+     *
+     * @param value grid value
+     * @return TileType
+     */
     public static TileType to(int value) {
         for (TileType type : values()) {
             if (type.value == value) {
@@ -29,18 +45,40 @@ public enum TileType {
         throw new IllegalArgumentException("value=" + value + " is invalid for a tile");
     }
 
+    /**
+     * Gets the raw value this TileType represents
+     *
+     * @return grid value
+     */
     public int value() {
         return this.value;
     }
 
+    /**
+     * Gets this TileType's color
+     *
+     * @return tile color
+     */
     public Color color() {
         return this.color;
     }
 
+    /**
+     * Gets if this TileType can only have 1 occurrence in the maze
+     *
+     * @return true or false
+     */
     public boolean isExclusive() {
         return this.exclusive;
     }
 
+    /**
+     * Generates icon version of this {@link TileType}
+     *
+     * @param width  icon width
+     * @param height icon height
+     * @return a simple icon version of this tile
+     */
     public BufferedImage toIcon(int width, int height) {
         BufferedImage icon = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics graphics = icon.createGraphics();
@@ -49,8 +87,13 @@ public enum TileType {
         return icon;
     }
 
+    /**
+     * Unused toString for TileType
+     *
+     * @return string
+     */
     @Override
     public String toString() {
-        return "TileType[" + "value=" + value + ", exclusive=" + exclusive + ']';
+        return "TileType{value=" + value + ", color=" + color.toString() + ", exclusive=" + exclusive + '}';
     }
 }
