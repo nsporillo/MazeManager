@@ -71,6 +71,9 @@ public class MouseHandler extends MouseAdapter {
     private void handleSet(MouseEvent e, boolean drag) {
         if (held || !drag) {
             Maze maze = frame.getMaze();
+            if (!maze.isTile(e.getPoint())) {
+                return; // prevent arrayindexoutofbounds if we drag outside the window
+            }
             if (SwingUtilities.isRightMouseButton(e)) {
                 // right click will clear any tile
                 maze.setValueAt(e.getPoint(), TileType.OPEN);
