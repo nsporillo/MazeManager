@@ -5,49 +5,71 @@ import java.awt.event.MouseEvent;
 public class MouseHandler extends MouseAdapter {
 
     private MazeManager frame;
+    private boolean held = false;
 
+    /**
+     * Constructor for mouse handler
+     *
+     * @param frame main class
+     */
     public MouseHandler(MazeManager frame) {
         this.frame = frame;
     }
 
-    private boolean held = false;
-
+    /**
+     * Invoked when a mouse button has been pressed on a component.
+     *
+     * @param e event
+     */
     @Override
     public void mousePressed(MouseEvent e) {
         this.held = true;
     }
 
+    /**
+     * Invoked when a mouse button has been released on a component.
+     *
+     * @param e event
+     */
     @Override
     public void mouseReleased(MouseEvent e) {
         this.held = false;
     }
 
+    /**
+     * Invoked when a mouse button has been released on a component.
+     *
+     * @param e event
+     */
     @Override
     public void mouseDragged(MouseEvent e) {
-        handleSet(e);
+        handleSet(e, true);
     }
 
+    /**
+     * Invoked when a mouse button is clicked on a component.
+     *
+     * @param e event
+     */
     @Override
     public void mouseClicked(MouseEvent e) {
-        Maze maze = frame.getMaze();
-        if (SwingUtilities.isRightMouseButton(e)) {
-            maze.setValueAt(e.getPoint(), TileType.OPEN);
-        } else {
-            maze.setValueAt(e.getPoint(), maze.getTooltip());
-        }
+        handleSet(e, false);
     }
 
-    @Override
-    public void mouseMoved(MouseEvent e) {
-        handleSet(e);
-    }
-
-    private void handleSet(MouseEvent e) {
-        if (held) {
+    /**
+     * Handles tile setting
+     *
+     * @param e    mouse event
+     * @param drag if mouse was dragged
+     */
+    private void handleSet(MouseEvent e, boolean drag) {
+        if (held || !drag) {
             Maze maze = frame.getMaze();
             if (SwingUtilities.isRightMouseButton(e)) {
+                // right click will clear any tile
                 maze.setValueAt(e.getPoint(), TileType.OPEN);
             } else {
+                // left click will place the value at mouse with our tooltip
                 maze.setValueAt(e.getPoint(), maze.getTooltip());
             }
         }
