@@ -92,6 +92,16 @@ public enum TileType {
     }
 
     /**
+     * Generates icon version of this {@link TileType}
+     *
+     * @param size icon size
+     * @return a simple icon version of this tile
+     */
+    public BufferedImage toIcon(int size) {
+        return toIcon(size, size);
+    }
+
+    /**
      * Unused toString for TileType
      *
      * @return string
