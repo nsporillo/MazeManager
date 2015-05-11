@@ -86,22 +86,25 @@ public class MazeManager {
         menuBar.add(mnTile);
 
         JMenuItem start = new JMenuItem("Start");
-        start.setIcon(new ImageIcon(TileType.START.toIcon(16, 16)));
+
+        final int ICON_SIZE = 16; // local constant; size of menu tile icons
+
+        start.setIcon(new ImageIcon(TileType.START.toIcon(ICON_SIZE)));
         start.addActionListener(ml);
         mnTile.add(start);
 
         JMenuItem open = new JMenuItem("Open");
-        open.setIcon(new ImageIcon(TileType.OPEN.toIcon(16, 16)));
+        open.setIcon(new ImageIcon(TileType.OPEN.toIcon(ICON_SIZE)));
         open.addActionListener(ml);
         mnTile.add(open);
 
         JMenuItem wall = new JMenuItem("Wall");
-        wall.setIcon(new ImageIcon(TileType.WALL.toIcon(16, 16)));
+        wall.setIcon(new ImageIcon(TileType.WALL.toIcon(ICON_SIZE)));
         wall.addActionListener(ml);
         mnTile.add(wall);
 
         JMenuItem finish = new JMenuItem("Finish");
-        finish.setIcon(new ImageIcon(TileType.END.toIcon(16, 16)));
+        finish.setIcon(new ImageIcon(TileType.END.toIcon(ICON_SIZE)));
         finish.addActionListener(ml);
         mnTile.add(finish);
 
