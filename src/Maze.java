@@ -55,8 +55,8 @@ public class Maze extends JPanel {
      * Handles various maze loading tasks
      */
     public void load() {
-        this.colSize = getPreferredSize().getWidth() / (double) this.cols;
-        this.rowSize = getPreferredSize().getHeight() / (double) this.rows;
+        this.colSize = (double) WIDTH / (double) this.cols;
+        this.rowSize = (double) HEIGHT / (double) this.rows;
         this.tooltip = TileType.START;
         this.paint = true;
         this.solved = false;
