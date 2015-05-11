@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  */
 public class Maze extends JPanel {
 
+    private final int WIDTH = 550, HEIGHT = 450; // constants: window size
+
     private TileType tooltip;
     private Point start, finish;
 
@@ -71,7 +73,7 @@ public class Maze extends JPanel {
      */
     @Override
     public Dimension getPreferredSize() {
-        return new Dimension(550, 450);
+        return new Dimension(WIDTH, HEIGHT);
     }
 
     /**
@@ -102,11 +104,11 @@ public class Maze extends JPanel {
         g2.setColor(Color.black);
         for (int r = 0; r <= rows; r++) {
             double size = r * rowSize;
-            g2.draw(new Line2D.Double(0, size, this.getWidth(), size));
+            g2.draw(new Line2D.Double(0, size, WIDTH, size));
         }
         for (int c = 0; c <= cols; c++) {
             double size = c * colSize;
-            g2.draw(new Line2D.Double(size, 0, size, this.getHeight()));
+            g2.draw(new Line2D.Double(size, 0, size, HEIGHT));
         }
     }
 
@@ -194,7 +196,7 @@ public class Maze extends JPanel {
      * @return if point is within grid
      */
     public boolean isTile(Point raw) {
-        if (raw.x < 0 || raw.x > getWidth() || raw.y < 0 || raw.y > getHeight()) {
+        if (raw.x < 0 || raw.x > WIDTH || raw.y < 0 || raw.y > HEIGHT) {
             // raw point is outside maze panel
             return false;
         }
