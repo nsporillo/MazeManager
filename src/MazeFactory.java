@@ -11,7 +11,7 @@ import java.util.Scanner;
  * Description: Utility class for maze IO
  */
 public class MazeFactory {
-    private static String root = "mazes"; // mazes directory
+    private final static String root = "mazes"; // constant; mazes directory
 
     /**
      * Generates an initial, empty maze
