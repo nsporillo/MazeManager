@@ -96,9 +96,7 @@ public class MenuListener implements ActionListener {
         } else if (action.equals("Finish")) {
             frame.getMaze().setTooltip(TileType.END);
         } else if (action.equals("Solve")) {
-            if (frame.getMaze().isSolved()) {
-                frame.getMaze().reset(); // if we're solved already, reset
-            }
+            frame.getMaze().reset(); // always reset maze before solving
             if (!frame.getMaze().solve()) {
                 showMessageDialog(frame.getMaze(), "Could not solve maze!", "Error", JOptionPane.ERROR_MESSAGE);
             }
