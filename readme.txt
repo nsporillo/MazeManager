@@ -22,7 +22,7 @@ Maze Editing:
     - A 'tooltip' is the current Tile you're set to be placing
     - To change a tooltip, Click Tile and select a new tooltip
     - Available tooltips are Start, Open, Wall, Finish
-    - Start = The single maze start pont
+    - Start = The single maze start point
     - Open = An empty tile
     - Wall = A barrier tile
     - Finish = The single maze end point
